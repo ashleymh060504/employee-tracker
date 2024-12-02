@@ -1,4 +1,4 @@
-create database emplopyee_tracker_db;
+create database employee_tracker_db;
 
 \c employee_tracker_db;
 
