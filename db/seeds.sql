@@ -3,7 +3,7 @@ values  ('HR'),
         ('Finance'), 
         ('IT');
 
-insert into roles (role_title, role_salary, department_name)
+insert into roles (job_title, role_salary, department_name)
 values ('Manager', 100000.00, 'HR'),
        ('Assistant Manager', 80000.00, 'HR'),
        ('HR Specialist', 60000.00, 'HR'),

@@ -1,2 +1,6 @@
 select *
-from employees
+from departments;
+select *
+from roles;
+select *
+from employees;

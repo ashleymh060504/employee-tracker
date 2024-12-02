@@ -9,7 +9,7 @@ create table departments (
 
 create table roles (
     role_id int primary key,
-    role_title varchar(30) not null,
+    job_title varchar(30) not null,
     role_salary decimal(10, 2),
     department_name varchar(30) not null,
     foreign key (department_name) references departments(department_name)
@@ -23,7 +23,7 @@ create table employees (
     department_name varchar(30) not null,
     employee_salary decimal(10, 2),
     manager varchar(30),
-    foreign key (employee_role) references roles(role_title),
+    foreign key (employee_role) references roles(job_title),
     foreign key (department_name) references departments(department_name)
 );
 
