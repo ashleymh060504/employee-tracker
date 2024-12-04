@@ -1,0 +1,18 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "CLI application that allows users to manage a company's employee database, using Node.js, Inquirer, and MySQL.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashleymh060504/employee-tracker"
+  },
+  "author": "Ashley Hayes",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "12.1.0"
+  }
+}

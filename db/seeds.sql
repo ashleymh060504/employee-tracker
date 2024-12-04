@@ -3,31 +3,23 @@ values  ('HR'),
         ('Finance'), 
         ('IT');
 
-insert into roles (job_title, role_salary, department_name)
-values ('Manager', 100000.00, 'HR'),
-       ('Assistant Manager', 80000.00, 'HR'),
-       ('HR Specialist', 60000.00, 'HR'),
-       ('Manager', 100000.00, 'Finance'),
-       ('Assistant Manager', 80000.00, 'Finance'),
-       ('Finance Specialist', 60000.00, 'Finance'),
-       ('Manager', 100000.00, 'IT'),
-       ('Assistant Manager', 80000.00, 'IT'),
-       ('IT Specialist', 60000.00, 'IT');
+insert into roles (job_title, role_salary, department_id)
+values ('Manager', 100000.00, 1),
+       ('Assistant Manager', 80000.00, 1),
+       ('HR Specialist', 60000.00, 1),
+       ('Manager', 100000.00, 2),
+       ('Assistant Manager', 80000.00, 2),
+       ('Finance Specialist', 60000.00, 2),
+       ('Manager', 100000.00, 3),
+       ('Assistant Manager', 80000.00, 3),
+       ('IT Specialist', 60000.00, 3);
 
 insert into employees (
-    employee_firstName, 
-    employee_lastName, 
-    employee_role, 
-    department_name, 
-    employee_salary, 
-    manager) 
-values ('Liam', 'Carter', 'Manager', 'HR', 100000.00, NULL),
-       ('Olivia', 'Smith', 'Assistant Manager', 'HR', 80000.00, 'Liam Carter'),
-       ('Noah', 'Johnson', 'HR Specialist', 'HR', 60000.00, 'Olivia Smith'),
-       ('Emma', 'Williams', 'Manager', 'Finance', 100000.00, NULL),
-       ('William', 'Brown', 'Assistant Manager', 'Finance', 80000.00, 'Emma Williams'),
-       ('Ava', 'Jones', 'Finance Specialist', 'Finance', 60000.00, 'William Brown'),
-       ('James', 'Garcia', 'Manager', 'IT', 100000.00, NULL),
-       ('Isabella', 'Martinez', 'Assistant Manager', 'IT', 80000.00, 'James Garcia'),
-       ('Logan', 'Rodriguez', 'IT Specialist', 'IT', 60000.00, 'Isabella Martinez');
-
+    firstName, 
+    lastName, 
+    role_id, 
+    salary, 
+    manager_id) 
+values ('Liam', 'Carter', 1, 100000.00, NULL),
+       ('Olivia', 'Smith', 2, 80000.00, 1)
+    
