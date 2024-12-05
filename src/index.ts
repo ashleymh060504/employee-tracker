@@ -7,40 +7,68 @@ import { pool, queryETdb } from './connection.js';
 
 
 const viewDepartments = async () => {
-    const query = 'SELECT * FROM departments';
-    const res = await queryETdb(query, []);
-    console.table(res.rows);
+    try {
+        const query = 'SELECT * FROM departments';
+        const res = await queryETdb(query, []);
+        console.table(res.rows);
+    } catch (error) {
+        console.error('Error fetching departments', error);
+    }
   }  
 const viewRoles = async () => {
-    const query = 'SELECT * FROM roles';
-    const res = await queryETdb(query, []);
-    console.table(res.rows);
+    try {
+        const query = 'SELECT * FROM roles';
+        const res = await queryETdb(query, []);
+        console.table(res.rows);
+  } catch (error) {
+      console.error('Error fetching roles', error);
   }
+}
 const viewEmployees = async () => {
-    const query = 'SELECT * FROM employees';
-    const res = await queryETdb(query, []);
-    console.table(res.rows);
+    try {
+        const query = 'SELECT * FROM employees';
+        const res = await queryETdb(query, []);
+        console.table(res.rows);
+  } catch (error) {
+      console.error('Error fetching employees', error);
   }
+}
 const addDepartment = async (department: string) => {
-    const query = 'INSERT INTO departments (name) VALUES ($1)';
-    const values = [department];
-    await queryETdb(query, values);
-  }
+    try {
+        const query = 'INSERT INTO departments (name) VALUES ($1)';
+        const values = [department];
+        await queryETdb(query, values);
+  } catch (error) {
+        console.error('Error adding department', error);
+    }
+}
 const addRole = async (role: string) => {
-    const query = 'INSERT INTO roles (title) VALUES ($1)';
-    const values = [role];
-    await queryETdb(query, values);
-  }
+    try {
+        const query = 'INSERT INTO roles (title) VALUES ($1)';
+        const values = [role];
+        await queryETdb(query, values);
+  } catch (error) {
+        console.error('Error adding role', error);
+    }
+}
 const addEmployee = async (employee: string) => {
-    const query = 'INSERT INTO employees (name) VALUES ($1)';
-    const values = [employee];
-    await queryETdb(query, values);
-  }
+    try {
+        const query = 'INSERT INTO employees (name) VALUES ($1)';
+        const values = [employee];
+        await queryETdb(query, values);
+  } catch (error) {
+        console.error('Error adding employee', error);
+    }
+}
 const updateEmployeeRole = async (employee: string, role: string) => {
-    const query = 'UPDATE employees SET role_id = $1 WHERE name = $2';
-    const values = [role, employee];
-    await queryETdb(query, values);
-  }
+    try {
+        const query = 'UPDATE employees SET role_id = $1 WHERE name = $2';
+        const values = [role, employee];
+        await queryETdb(query, values);
+  } catch (error) {
+        console.error('Error updating employee role', error);
+    }
+}
 
 inquirer
   .prompt([
