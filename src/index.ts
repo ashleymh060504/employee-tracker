@@ -10,7 +10,11 @@ const viewDepartments = async () => {
     try {
         const query = 'SELECT * FROM departments';
         const res = await queryETdb(query, []);
-        console.table(res.rows);
+        if (res) {
+            console.table(res.rows);
+        } else {
+            console.error('No results returned from the query.');
+        }
     } catch (error) {
         console.error('Error fetching departments', error);
     }
@@ -19,7 +23,11 @@ const viewRoles = async () => {
     try {
         const query = 'SELECT * FROM roles';
         const res = await queryETdb(query, []);
-        console.table(res.rows);
+        if (res) {
+            console.table(res.rows);
+        } else {
+            console.error('No results returned from the query.');
+        }
   } catch (error) {
       console.error('Error fetching roles', error);
   }
@@ -28,7 +36,11 @@ const viewEmployees = async () => {
     try {
         const query = 'SELECT * FROM employees';
         const res = await queryETdb(query, []);
-        console.table(res.rows);
+        if (res) {
+            console.table(res.rows);
+        } else {
+            console.error('No results returned from the query.');
+        }
   } catch (error) {
       console.error('Error fetching employees', error);
   }
