@@ -18,7 +18,12 @@ const viewDepartments = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = 'SELECT * FROM departments';
         const res = yield (0, connection_js_1.queryETdb)(query, []);
-        console.table(res.rows);
+        if (res) {
+            console.table(res.rows);
+        }
+        else {
+            console.error('No results returned from the query.');
+        }
     }
     catch (error) {
         console.error('Error fetching departments', error);
@@ -28,7 +33,12 @@ const viewRoles = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = 'SELECT * FROM roles';
         const res = yield (0, connection_js_1.queryETdb)(query, []);
-        console.table(res.rows);
+        if (res) {
+            console.table(res.rows);
+        }
+        else {
+            console.error('No results returned from the query.');
+        }
     }
     catch (error) {
         console.error('Error fetching roles', error);
@@ -38,7 +48,12 @@ const viewEmployees = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = 'SELECT * FROM employees';
         const res = yield (0, connection_js_1.queryETdb)(query, []);
-        console.table(res.rows);
+        if (res) {
+            console.table(res.rows);
+        }
+        else {
+            console.error('No results returned from the query.');
+        }
     }
     catch (error) {
         console.error('Error fetching employees', error);
