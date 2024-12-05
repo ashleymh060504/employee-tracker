@@ -2,19 +2,9 @@
 import dotenv from 'dotenv';
 import inquirer from 'inquirer';
 import pg from 'pg';
-import pool from '/Users/ashleyhayes/Bootcamp/homework/employee-tracker/src/connection.ts';
+import { pool, queryETdb } from './connection.js';
 
-const queryETdb = async (query: string, values: any[]) => {
-    const client = await pool.connect();
-    try {
-      const res = await client.query(query, values);
-      return res;
-    } catch (err) {
-      console.log(err);
-    } finally {
-      client.release();
-    }
-  };
+
 
 const viewDepartments = async () => {
     const query = 'SELECT * FROM departments';

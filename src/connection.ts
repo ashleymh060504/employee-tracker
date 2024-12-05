@@ -11,6 +11,16 @@ const pool = new Pool({
     port: process.env.DB_PORT,
 });
 
+const queryETdb = async (query: string, values: any[]) => {
+    const client = await pool.connect();
+    try {
+      const res = await client.query(query, values);
+      return res;
+    } catch (err) {
+      console.log(err);
+    } finally {
+      client.release();
+    }
+  };
 
-
-export default pool;
+export { pool, queryETdb };

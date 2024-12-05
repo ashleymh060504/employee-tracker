@@ -13,54 +13,41 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const inquirer_1 = __importDefault(require("inquirer"));
-const connection_ts_1 = __importDefault(require("/Users/ashleyhayes/Bootcamp/homework/employee-tracker/src/connection.ts"));
-const queryETdb = (query, values) => __awaiter(void 0, void 0, void 0, function* () {
-    const client = yield connection_ts_1.default.connect();
-    try {
-        const res = yield client.query(query, values);
-        return res;
-    }
-    catch (err) {
-        console.log(err);
-    }
-    finally {
-        client.release();
-    }
-});
+const connection_js_1 = require("./connection.js");
 const viewDepartments = () => __awaiter(void 0, void 0, void 0, function* () {
     const query = 'SELECT * FROM departments';
-    const res = yield queryETdb(query, []);
+    const res = yield (0, connection_js_1.queryETdb)(query, []);
     console.table(res.rows);
 });
 const viewRoles = () => __awaiter(void 0, void 0, void 0, function* () {
     const query = 'SELECT * FROM roles';
-    const res = yield queryETdb(query, []);
+    const res = yield (0, connection_js_1.queryETdb)(query, []);
     console.table(res.rows);
 });
 const viewEmployees = () => __awaiter(void 0, void 0, void 0, function* () {
     const query = 'SELECT * FROM employees';
-    const res = yield queryETdb(query, []);
+    const res = yield (0, connection_js_1.queryETdb)(query, []);
     console.table(res.rows);
 });
 const addDepartment = (department) => __awaiter(void 0, void 0, void 0, function* () {
     const query = 'INSERT INTO departments (name) VALUES ($1)';
     const values = [department];
-    yield queryETdb(query, values);
+    yield (0, connection_js_1.queryETdb)(query, values);
 });
 const addRole = (role) => __awaiter(void 0, void 0, void 0, function* () {
     const query = 'INSERT INTO roles (title) VALUES ($1)';
     const values = [role];
-    yield queryETdb(query, values);
+    yield (0, connection_js_1.queryETdb)(query, values);
 });
 const addEmployee = (employee) => __awaiter(void 0, void 0, void 0, function* () {
     const query = 'INSERT INTO employees (name) VALUES ($1)';
     const values = [employee];
-    yield queryETdb(query, values);
+    yield (0, connection_js_1.queryETdb)(query, values);
 });
 const updateEmployeeRole = (employee, role) => __awaiter(void 0, void 0, void 0, function* () {
     const query = 'UPDATE employees SET role_id = $1 WHERE name = $2';
     const values = [role, employee];
-    yield queryETdb(query, values);
+    yield (0, connection_js_1.queryETdb)(query, values);
 });
 inquirer_1.default
     .prompt([
