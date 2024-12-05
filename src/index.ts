@@ -1,5 +1,56 @@
 //Make a function to initiate the server, use inquirer inside the function
+import dotenv from 'dotenv';
 import inquirer from 'inquirer';
+import pg from 'pg';
+import pool from '/Users/ashleyhayes/Bootcamp/homework/employee-tracker/src/connection.ts';
+
+const queryETdb = async (query: string, values: any[]) => {
+    const client = await pool.connect();
+    try {
+      const res = await client.query(query, values);
+      return res;
+    } catch (err) {
+      console.log(err);
+    } finally {
+      client.release();
+    }
+  };
+
+const viewDepartments = async () => {
+    const query = 'SELECT * FROM departments';
+    const res = await queryETdb(query, []);
+    console.table(res.rows);
+  }  
+const viewRoles = async () => {
+    const query = 'SELECT * FROM roles';
+    const res = await queryETdb(query, []);
+    console.table(res.rows);
+  }
+const viewEmployees = async () => {
+    const query = 'SELECT * FROM employees';
+    const res = await queryETdb(query, []);
+    console.table(res.rows);
+  }
+const addDepartment = async (department: string) => {
+    const query = 'INSERT INTO departments (name) VALUES ($1)';
+    const values = [department];
+    await queryETdb(query, values);
+  }
+const addRole = async (role: string) => {
+    const query = 'INSERT INTO roles (title) VALUES ($1)';
+    const values = [role];
+    await queryETdb(query, values);
+  }
+const addEmployee = async (employee: string) => {
+    const query = 'INSERT INTO employees (name) VALUES ($1)';
+    const values = [employee];
+    await queryETdb(query, values);
+  }
+const updateEmployeeRole = async (employee: string, role: string) => {
+    const query = 'UPDATE employees SET role_id = $1 WHERE name = $2';
+    const values = [role, employee];
+    await queryETdb(query, values);
+  }
 
 inquirer
   .prompt([
@@ -21,11 +72,11 @@ inquirer
   ])
   .then((answers) => {
     if (answers.options === 'View all departments') {
-        console.table(departments);
+        viewDepartments();
     } else if (answers.options === 'View all roles') {
-        console.table(roles);
+        viewRoles();
     } else if (answers.options === 'View all employees') {
-        console.table(employees);
+        viewEmployees();
     } else if (answers.options === 'Add a department') {
         inquirer
         .prompt([
@@ -37,7 +88,7 @@ inquirer
         ])
         .then((answers) => {
             departments.push(answers.department);
-            console.table(departments);
+            addDepartment(answers.department);
         })
     } else if (answers.options === 'Add a role') {
         inquirer
@@ -50,7 +101,7 @@ inquirer
         ])
         .then((answers) => {
             roles.push(answers.role);
-            console.table(roles);
+            addRole(answers.role);
         })
     } else if (answers.options === 'Add an employee') {
         inquirer
@@ -63,7 +114,7 @@ inquirer
         ])
         .then((answers) => {
             employees.push(answers.employee);
-            console.table(employees);
+            addEmployee(answers.employee);
         })
     } else if (answers.options === 'Update an employee role') {
        inquirer
@@ -82,14 +133,8 @@ inquirer
          .then((answers) => {
               employees.push(answers.employee);
               roles.push(answers.role);
-              console.table(employees joined roles);
+              updateEmployeeRole(answers.employee, answers.role);
          })
     // Use user feedback for... whatever!!
-  })
-  .catch((error) => {
-    if (error.isTtyError) {
-      // Prompt couldn't be rendered in the current environment
-    } else {
-      // Something else went wrong
-    }
-  });
+  }
+    });

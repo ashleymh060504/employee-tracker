@@ -4,6 +4,8 @@
   "description": "CLI application that allows users to manage a company's employee database, using Node.js, Inquirer, and MySQL.",
   "main": "index.js",
   "scripts": {
+    "build": "npx tsc",
+    "start": "npm run build && node dist/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,6 +15,9 @@
   "author": "Ashley Hayes",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "12.1.0"
+    "inquirer": "12.1.0",
+    "pg": "^8.13.1",
+    "dotenv": "16.4.7",
+    "typescript": "5.7.2"
   }
 }
