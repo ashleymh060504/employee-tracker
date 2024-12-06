@@ -117,7 +117,7 @@ inquirer
             }
         ])
         .then((answers) => {
-            departments.push(answers.department);
+            // departments.push(answers.department);
             addDepartment(answers.department);
         })
     } else if (answers.options === 'Add a role') {
@@ -130,7 +130,7 @@ inquirer
             }
         ])
         .then((answers) => {
-            roles.push(answers.role);
+            // roles.push(answers.role);
             addRole(answers.role);
         })
     } else if (answers.options === 'Add an employee') {
@@ -143,7 +143,7 @@ inquirer
             }
         ])
         .then((answers) => {
-            employees.push(answers.employee);
+            // employees.push(answers.employee);
             addEmployee(answers.employee);
         })
     } else if (answers.options === 'Update an employee role') {
@@ -161,8 +161,8 @@ inquirer
             }
        ]) 
          .then((answers) => {
-              employees.push(answers.employee);
-              roles.push(answers.role);
+            //   employees.push(answers.employee);
+            //   roles.push(answers.role);
               updateEmployeeRole(answers.employee, answers.role);
          })
     // Use user feedback for... whatever!!

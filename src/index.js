@@ -137,7 +137,7 @@ inquirer_1.default
             }
         ])
             .then((answers) => {
-            departments.push(answers.department);
+            // departments.push(answers.department);
             addDepartment(answers.department);
         });
     }
@@ -151,7 +151,7 @@ inquirer_1.default
             }
         ])
             .then((answers) => {
-            roles.push(answers.role);
+            // roles.push(answers.role);
             addRole(answers.role);
         });
     }
@@ -165,7 +165,7 @@ inquirer_1.default
             }
         ])
             .then((answers) => {
-            employees.push(answers.employee);
+            // employees.push(answers.employee);
             addEmployee(answers.employee);
         });
     }
@@ -184,8 +184,8 @@ inquirer_1.default
             }
         ])
             .then((answers) => {
-            employees.push(answers.employee);
-            roles.push(answers.role);
+            //   employees.push(answers.employee);
+            //   roles.push(answers.role);
             updateEmployeeRole(answers.employee, answers.role);
         });
         // Use user feedback for... whatever!!
