@@ -3,13 +3,17 @@ import dotenv from 'dotenv';
 import inquirer from 'inquirer';
 import pg from 'pg';
 import { pool, queryETdb } from './connection.js';
+import test from 'node:test';
 
 
 
 const viewDepartments = async () => {
     try {
-        const query = 'SELECT * FROM departments';
+        console.log('test1');
+        const query = 'SELECT * FROM "departments";';
+        console.log ('before res');
         const res = await queryETdb(query, []);
+        console.log ('after res', res);
         if (res) {
             console.table(res.rows);
         } else {

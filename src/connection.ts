@@ -9,18 +9,19 @@ const pool = new Pool({
     host: process.env.DB_HOST,
     database: process.env.DB_DATABASE,
     password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : undefined,
+    port: 5432
 });
 
 const queryETdb = async (query: string, values: any[]) => {
-    const client = await pool.connect();
+    // const client = await pool.connect();
     try {
-      const res = await client.query(query, values);
+      console.log('queryETdb', query, values);
+      const res = await pool.query(query, values);
       return res;
     } catch (err) {
       console.log(err);
     } finally {
-      client.release();
+      // client.release();
     }
   };
 
