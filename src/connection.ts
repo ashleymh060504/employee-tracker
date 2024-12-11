@@ -7,22 +7,20 @@ const { Pool } = pg
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
+    database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: 5432
 });
 
-const queryETdb = async (query: string, values: any[]) => {
-    // const client = await pool.connect();
-    try {
-      console.log('queryETdb', query, values);
-      const res = await pool.query(query, values);
-      return res;
-    } catch (err) {
-      console.log(err);
-    } finally {
-      // client.release();
-    }
-  };
+const connectToDb = async () => {
+  try {
+    await pool.connect();
+    console.log('Connected to the database.');
+  } catch (err) {
+    console.error('Error connecting to database:', err);
+    process.exit(1);
+  }
+};
 
-export { pool, queryETdb };
+
+export { pool, connectToDb };

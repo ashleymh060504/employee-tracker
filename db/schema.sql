@@ -13,7 +13,7 @@ create table roles (
     job_title varchar(30) not null,
     role_salary decimal(10, 2),
     department_id integer not null,
-    foreign key (department_id) references departments(id)
+    foreign key (department_id) references departments(id) on delete cascade
 );
 
 create table employees (
@@ -22,8 +22,8 @@ create table employees (
     lastName varchar(30) not null,
     role_id integer not null,
     salary decimal(10, 2),
-    manager_id integer,
-    foreign key (role_id) references roles(id),
-    foreign key (manager_id) references employees(id)
+    manager_id integer default null,
+    foreign key (role_id) references roles(id) on delete cascade,
+    foreign key (manager_id) references employees(id) on delete set null
 );
 
