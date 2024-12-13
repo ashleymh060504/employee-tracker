@@ -20,7 +20,7 @@ const queryETdb = async (query: string, values: any[]) => {
   };
 
 const getEmployees = async () => {
-    const res = await client.query ('select id, fistName, lastName from employees');
+    const res = await client.query ('select id, firstName, lastName from employees');
     return res.rows.map(row => ({
         name: `${row.firstName} ${row.lastName}`,
         value: row.id,
@@ -101,10 +101,10 @@ const addRole = async (job_title: string, role_salary: number, department_id: nu
     } finally {startCli();
     }
 };
-const addEmployee = async (firstName: string, lastName: string, role_id: number, manager_id: number) => {
+const addEmployee = async (firstName: string, lastName: string, role_id: number, manager_id: number, salary: number) => {
     try {
-        const query = 'INSERT INTO employees (firstName, lastName, role_id, manager_id) VALUES ($1, $2, $3, $4)';
-        const values = [firstName, lastName, role_id, manager_id];
+        const query = 'INSERT INTO employees (firstName, lastName, role_id, manager_id, salary) VALUES ($1, $2, $3, $4, $5)';
+        const values = [firstName, lastName, role_id, manager_id, salary];
         await queryETdb(query, values);
     } catch (error) {
         console.error('Error adding employee', error);
@@ -199,19 +199,24 @@ function startCli(): void {
                     name: 'lastName'
                 },
                 {
-                    type: 'input',
+                    type: 'number',
                     message: 'What is the role id of the new employee?',
                     name: 'role_id'
                 },
                 {
-                    type: 'input',
+                    type: 'number',
                     message: 'What is the manager id of the new employee?',
                     name: 'manager_id'
+                },
+                {
+                    type: 'number',
+                    message: 'What is the salary of the new employee?',
+                    name: 'salary'
                 }
             ])
             .then((answers) => {
             // employees.push(answers.employee);
-                addEmployee(answers.first_name, answers.last_name, answers.role_id, answers.manager_id);
+                addEmployee(answers.firstName, answers.lastName, answers.role_id, answers.manager_id, answers.salary);
             })
         } else if (answers.options === 'Update an employee role') {
         inquirer
