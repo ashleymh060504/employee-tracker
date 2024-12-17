@@ -22,7 +22,7 @@ create table employees (
     lastName varchar(30) not null,
     role_id integer not null,
     salary decimal(10, 2),
-    manager_id integer default null,
+    manager_id integer,
     foreign key (role_id) references roles(id) on delete cascade,
     foreign key (manager_id) references employees(id) on delete set null
 );

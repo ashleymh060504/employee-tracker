@@ -4,6 +4,7 @@ import inquirer from 'inquirer';
 import pg from 'pg';
 import { pool, connectToDb } from './connection.js';
 import test from 'node:test';
+import { get } from 'http';
 
 const client = await pool.connect();
 
@@ -26,6 +27,7 @@ const getEmployees = async () => {
         value: row.id,
     }))
 };
+getEmployees();
 
 const employeeChoices = await getEmployees();
 
@@ -101,8 +103,9 @@ const addRole = async (job_title: string, role_salary: number, department_id: nu
     } finally {startCli();
     }
 };
-const addEmployee = async (firstName: string, lastName: string, role_id: number, manager_id: number, salary: number) => {
+const addEmployee = async (firstName: string, lastName: string, role_id: number, manager_id: any, salary: number) => {
     try {
+        console.log(manager_id);
         const query = 'INSERT INTO employees (firstName, lastName, role_id, manager_id, salary) VALUES ($1, $2, $3, $4, $5)';
         const values = [firstName, lastName, role_id, manager_id, salary];
         await queryETdb(query, values);
@@ -183,7 +186,7 @@ function startCli(): void {
             ])
             .then((answers) => {
             // roles.push(answers.role);
-                addRole(answers.role, answers.role_salary, answers.department_id);
+                addRole(answers.job_title, answers.role_salary, answers.department_id);
             })
         } else if (answers.options === 'Add an employee') {
             inquirer
@@ -204,9 +207,9 @@ function startCli(): void {
                     name: 'role_id'
                 },
                 {
-                    type: 'number',
+                    type: 'input',
                     message: 'What is the manager id of the new employee?',
-                    name: 'manager_id'
+                    name: 'manager_id',
                 },
                 {
                     type: 'number',
@@ -216,6 +219,9 @@ function startCli(): void {
             ])
             .then((answers) => {
             // employees.push(answers.employee);
+                if (answers.manager_id === '') {
+                    answers.manager_id = null;
+                }
                 addEmployee(answers.firstName, answers.lastName, answers.role_id, answers.manager_id, answers.salary);
             })
         } else if (answers.options === 'Update an employee role') {
