@@ -19,27 +19,40 @@ const queryETdb = async (query: string, values: any[]) => {
       client.release();
     }
   };
+async function getEmployees(): Promise<string[]> {
+    const query = 'SELECT firstName, lastName from employees';
+    const res = await client.query(query);
+    const rows = res.rows;
+    return rows.map(row => row.firstName + ' ' + row.lastName);
+}
+async function getRoles(): Promise<string[]> {
+    const query = 'SELECT job_title FROM roles';
+    const res = await client.query(query);
+    const rows = res.rows;
+    return rows.map(row => row.job_title);
+}
+// const getEmployees = async () => {
+//     const res = await client.query ('select id, firstName, lastName from employees');
+//     return res.rows.map(row => ({
+//         name: `${row.firstName} ${row.lastName}`,
+//         value: row.id,
+//     }))
+// };
+// getEmployees();
 
-const getEmployees = async () => {
-    const res = await client.query ('select id, firstName, lastName from employees');
-    return res.rows.map(row => ({
-        name: `${row.firstName} ${row.lastName}`,
-        value: row.id,
-    }))
-};
-getEmployees();
+// const employeeChoices = await getEmployees();
 
-const employeeChoices = await getEmployees();
+// const getRoles = async () => {
+//     const res = await client.query ('select job_title from roles');
+//     return res.rows.map(row => ({
+//         name: row.job_title,
+//         value: row.job_title,
+//     }))
+// };
 
-const getRoles = async () => {
-    const res = await client.query ('select job_title from roles');
-    return res.rows.map(row => ({
-        name: row.job_title,
-        value: row.job_title,
-    }))
-};
+// const employeeRoles = await getRoles();
 
-const employeeRoles = await getRoles();
+
 
 const viewDepartments = async () => {
     try {
@@ -116,7 +129,7 @@ const addEmployee = async (firstName: string, lastName: string, role_id: number,
 };
 const updateEmployeeRole = async (selected_employee: string, role: string) => {
     try {
-        const query = 'UPDATE employees SET role_id = $1 WHERE name = $2';
+        const query = `UPDATE employees e SET e.role_id = r.id FROM roles r WHERE e.job_title = 'role' AND e.firstName || ',' || e.lastName = 'selected_employee';`;
         const values = [role, selected_employee];
         await queryETdb(query, values);
     } catch (error) {
@@ -125,7 +138,9 @@ const updateEmployeeRole = async (selected_employee: string, role: string) => {
     }
 };
 
-function startCli(): void {
+async function startCli(): Promise<void> {
+    const employeeChoices = await getEmployees();
+    const employeeRoles = await getRoles();
     inquirer
     .prompt([
         {
@@ -252,3 +267,7 @@ function startCli(): void {
     })};
 
 startCli();
+
+function execute<T>(query: string) {
+    throw new Error('Function not implemented.');
+}

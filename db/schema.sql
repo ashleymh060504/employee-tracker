@@ -27,3 +27,4 @@ create table employees (
     foreign key (manager_id) references employees(id) on delete set null
 );
 
+
