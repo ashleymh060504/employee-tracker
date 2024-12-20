@@ -5,13 +5,13 @@ create database employee_tracker_db;
 
 create table departments (
     id serial primary key,
-    department_name varchar(30) not null
+    name varchar(30) not null
 );
 
 create table roles (
     id serial primary key,
-    job_title varchar(30) not null,
-    role_salary decimal(10, 2),
+    title varchar(30) not null,
+    salary decimal(10, 2),
     department_id integer not null,
     foreign key (department_id) references departments(id) on delete cascade
 );

@@ -1,9 +1,9 @@
-insert into departments (department_name) 
+insert into departments (name) 
 values  ('HR'), 
         ('Finance'), 
         ('IT');
 
-insert into roles (job_title, role_salary, department_id)
+insert into roles (title, salary, department_id)
 values ('HR Manager', 100000.00, 1),
        ('HR Assistant Manager', 80000.00, 1),
        ('HR Specialist', 60000.00, 1),

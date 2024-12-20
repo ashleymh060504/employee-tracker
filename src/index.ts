@@ -30,12 +30,12 @@ async function getEmployees(): Promise<{name: string, value: number}[]> {
     });
 }
 async function getRoles(): Promise<{name: string, value: number}[]> {
-    const query = 'SELECT id, job_title FROM roles';
+    const query = 'SELECT id, title FROM roles';
     const res = await client.query(query);
     const rows = res.rows;
     return rows.map(row => {
         return {
-            name: row.job_title,
+            name: row.title,
             value: row.id
         }
     });
@@ -84,7 +84,7 @@ const viewEmployees = async () => {
 };
 const addDepartment = async (department: string) => {
     try {
-        const query = 'INSERT INTO departments (department_name) VALUES ($1)';
+        const query = 'INSERT INTO departments (name) VALUES ($1)';
         const values = [department];
         await queryETdb(query, values);
     } catch (error) {
@@ -92,10 +92,10 @@ const addDepartment = async (department: string) => {
     } finally {startCli();
     }
 };
-const addRole = async (job_title: string, role_salary: number, department_id: number) => {
+const addRole = async (title: string, salary: number, department_id: number) => {
     try {
-        const query = 'INSERT INTO roles (job_title, role_salary, department_id) VALUES ($1, $2, $3)';
-        const values = [job_title, role_salary, department_id];
+        const query = 'INSERT INTO roles (title, salary, department_id) VALUES ($1, $2, $3)';
+        const values = [title, salary, department_id];
         await queryETdb(query, values);
     } catch (error) {
         console.error('Error adding role', error);
@@ -115,7 +115,7 @@ const addEmployee = async (first_name: string, last_name: string, role_id: numbe
 };
 const updateEmployeeRole = async (selected_employee: string, role: string) => {
     try {
-        // const query = `UPDATE employees e SET e.role_id = (SELECT r.id FROM roles r WHERE r.job_title = $1) WHERE e.first_name || ' ' || e.last_name = $2;`;
+        // const query = `UPDATE employees e SET e.role_id = (SELECT r.id FROM roles r WHERE r.title = $1) WHERE e.first_name || ' ' || e.last_name = $2;`;
         const query = `UPDATE employees SET role_id = $1 WHERE id = $2;`
         const values = [role, selected_employee];
         await queryETdb(query, values);
@@ -173,12 +173,12 @@ async function startCli(): Promise<void> {
                 {
                     type: 'input',
                     message: 'What is the name of the role?',
-                    name: 'job_title'
+                    name: 'title'
                 },
                 {
                     type: 'input',
                     message: 'What is the salary of the role?',
-                    name: 'role_salary'
+                    name: 'salary'
                 },
                 {
                     type: 'input',
@@ -188,7 +188,7 @@ async function startCli(): Promise<void> {
             ])
             .then((answers) => {
             // roles.push(answers.role);
-                addRole(answers.job_title, answers.role_salary, answers.department_id);
+                addRole(answers.title, answers.salary, answers.department_id);
             })
         } else if (answers.options === 'Add an employee') {
             inquirer
