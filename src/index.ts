@@ -1,7 +1,6 @@
-//Make a function to initiate the server, use inquirer inside the function
 import dotenv from 'dotenv';
 import inquirer from 'inquirer';
-import pg from 'pg';
+import { Client } from 'pg';
 import { pool, connectToDb } from './connection.js';
 import test from 'node:test';
 import { get } from 'http';
@@ -31,29 +30,6 @@ async function getRoles(): Promise<string[]> {
     const rows = res.rows;
     return rows.map(row => row.job_title);
 }
-// const getEmployees = async () => {
-//     const res = await client.query ('select id, firstName, lastName from employees');
-//     return res.rows.map(row => ({
-//         name: `${row.firstName} ${row.lastName}`,
-//         value: row.id,
-//     }))
-// };
-// getEmployees();
-
-// const employeeChoices = await getEmployees();
-
-// const getRoles = async () => {
-//     const res = await client.query ('select job_title from roles');
-//     return res.rows.map(row => ({
-//         name: row.job_title,
-//         value: row.job_title,
-//     }))
-// };
-
-// const employeeRoles = await getRoles();
-
-
-
 const viewDepartments = async () => {
     try {
         const query = 'SELECT * FROM "departments";';
@@ -129,7 +105,7 @@ const addEmployee = async (firstName: string, lastName: string, role_id: number,
 };
 const updateEmployeeRole = async (selected_employee: string, role: string) => {
     try {
-        const query = `UPDATE employees e SET e.role_id = r.id FROM roles r WHERE e.job_title = 'role' AND e.firstName || ',' || e.lastName = 'selected_employee';`;
+        const query = `UPDATE employees e SET e.role_id = (SELECT r.id FROM roles r WHERE e.job_title = $1) WHERE e.firstName || ' ' || e.lastName = $2;`;
         const values = [role, selected_employee];
         await queryETdb(query, values);
     } catch (error) {
@@ -158,7 +134,7 @@ async function startCli(): Promise<void> {
                 'Exit'
                 ]
     }
-    /* Pass your questions in here */
+
     ])
     .then((answers) => {
         if (answers.options === 'View all departments') {
@@ -246,21 +222,19 @@ async function startCli(): Promise<void> {
                     type: 'list',
                     message: 'Select the employee you want to update',
                     name: 'selected_employee',
-                    choices: [employeeChoices]
+                    choices: employeeChoices
                 },
                 {
                     type: 'list',
                     message: 'What is the new role of this employee?',
                     name: 'role',
-                    choices: [employeeRoles]
+                    choices: employeeRoles
                 },
         ]) 
             .then((answers) => {
-            //   employees.push(answers.employee);
-            //   roles.push(answers.role);
                 updateEmployeeRole(answers.selected_employee, answers.role);
             })
-    // Use user feedback for... whatever!!
+ 
         } else if (answers.options === 'Exit') {
             process.exit();
         }
@@ -268,6 +242,3 @@ async function startCli(): Promise<void> {
 
 startCli();
 
-function execute<T>(query: string) {
-    throw new Error('Function not implemented.');
-}

@@ -12,12 +12,12 @@ const pool = new Pool({
     port: 5432
 });
 
-const connectToDb = async () => {
+async function connectToDb(): Promise<void> {
   try {
     await pool.connect();
     console.log('Connected to the database.');
-  } catch (err) {
-    console.error('Error connecting to database:', err);
+  } catch (error) {
+    console.error('Error connecting to database:', error);
     process.exit(1);
   }
 };
