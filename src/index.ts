@@ -18,17 +18,27 @@ const queryETdb = async (query: string, values: any[]) => {
       client.release();
     }
   };
-async function getEmployees(): Promise<string[]> {
-    const query = 'SELECT firstName, lastName from employees';
+async function getEmployees(): Promise<{name: string, value: number}[]> {
+    const query = 'SELECT id, first_name, last_name from employees';
     const res = await client.query(query);
     const rows = res.rows;
-    return rows.map(row => row.firstName + ' ' + row.lastName);
+    return rows.map(row => {
+        return {
+            name: row.first_name + ' ' + row.last_name,
+            value: row.id
+        }
+    });
 }
-async function getRoles(): Promise<string[]> {
-    const query = 'SELECT job_title FROM roles';
+async function getRoles(): Promise<{name: string, value: number}[]> {
+    const query = 'SELECT id, job_title FROM roles';
     const res = await client.query(query);
     const rows = res.rows;
-    return rows.map(row => row.job_title);
+    return rows.map(row => {
+        return {
+            name: row.job_title,
+            value: row.id
+        }
+    });
 }
 const viewDepartments = async () => {
     try {
@@ -92,11 +102,11 @@ const addRole = async (job_title: string, role_salary: number, department_id: nu
     } finally {startCli();
     }
 };
-const addEmployee = async (firstName: string, lastName: string, role_id: number, manager_id: any, salary: number) => {
+const addEmployee = async (first_name: string, last_name: string, role_id: number, manager_id: any, salary: number) => {
     try {
         console.log(manager_id);
-        const query = 'INSERT INTO employees (firstName, lastName, role_id, manager_id, salary) VALUES ($1, $2, $3, $4, $5)';
-        const values = [firstName, lastName, role_id, manager_id, salary];
+        const query = 'INSERT INTO employees (first_name, last_name, role_id, manager_id, salary) VALUES ($1, $2, $3, $4, $5)';
+        const values = [first_name, last_name, role_id, manager_id, salary];
         await queryETdb(query, values);
     } catch (error) {
         console.error('Error adding employee', error);
@@ -105,7 +115,8 @@ const addEmployee = async (firstName: string, lastName: string, role_id: number,
 };
 const updateEmployeeRole = async (selected_employee: string, role: string) => {
     try {
-        const query = `UPDATE employees e SET e.role_id = (SELECT r.id FROM roles r WHERE e.job_title = $1) WHERE e.firstName || ' ' || e.lastName = $2;`;
+        // const query = `UPDATE employees e SET e.role_id = (SELECT r.id FROM roles r WHERE r.job_title = $1) WHERE e.first_name || ' ' || e.last_name = $2;`;
+        const query = `UPDATE employees SET role_id = $1 WHERE id = $2;`
         const values = [role, selected_employee];
         await queryETdb(query, values);
     } catch (error) {
@@ -185,12 +196,12 @@ async function startCli(): Promise<void> {
                 {
                     type: 'input',
                     message: 'What is the first name of the employee?',
-                    name: 'firstName'
+                    name: 'first_name'
                 },
                 {
                     type: 'input',
                     message: 'What is the last name of the employee?',
-                    name: 'lastName'
+                    name: 'last_name'
                 },
                 {
                     type: 'number',
@@ -213,7 +224,7 @@ async function startCli(): Promise<void> {
                 if (answers.manager_id === '') {
                     answers.manager_id = null;
                 }
-                addEmployee(answers.firstName, answers.lastName, answers.role_id, answers.manager_id, answers.salary);
+                addEmployee(answers.first_name, answers.last_name, answers.role_id, answers.manager_id, answers.salary);
             })
         } else if (answers.options === 'Update an employee role') {
         inquirer

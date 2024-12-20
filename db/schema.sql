@@ -18,8 +18,8 @@ create table roles (
 
 create table employees (
     id serial primary key,
-    firstName varchar(30) not null,
-    lastName varchar(30) not null,
+    first_name varchar(30) not null,
+    last_name varchar(30) not null,
     role_id integer not null,
     salary decimal(10, 2),
     manager_id integer,

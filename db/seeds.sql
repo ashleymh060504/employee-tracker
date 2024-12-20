@@ -15,8 +15,8 @@ values ('HR Manager', 100000.00, 1),
        ('IT Specialist', 60000.00, 3);
 
 insert into employees (
-    firstName, 
-    lastName, 
+    first_name, 
+    last_name, 
     role_id, 
     salary, 
     manager_id) 
